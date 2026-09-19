@@ -28,16 +28,48 @@ import zstandard as zstd
 MAX_IN = 1500 * 1024 * 1024  # prefixPack 解压上限
 
 
+def _open_tar_stream(path):
+    """自动探测外层压缩格式（zstd / xz / 未压缩 tar），返回 tarfile 流。"""
+    f = open(path, 'rb')
+    head = f.read(6); f.seek(0)
+    # zstd magic: 28 B5 2F FD
+    if head[:4] == b'\x28\xb5\x2f\xfd':
+        r = zstd.ZstdDecompressor().stream_reader(f)
+        return tarfile.open(fileobj=r, mode='r|'), f, r
+    # xz magic: FD 37 7A 58 5A 00
+    if head[:6] == b'\xfd7zXZ\x00':
+        import lzma
+        r = lzma.open(f, 'rb')
+        return tarfile.open(fileobj=r, mode='r|'), f, r
+    # 未压缩 tar（ustar at offset 257）
+    f.seek(257); tag = f.read(5); f.seek(0)
+    if tag == b'ustar':
+        return tarfile.open(fileobj=f, mode='r|'), f, None
+    # 兜底：先试 zstd，失败试 xz
+    try:
+        r = zstd.ZstdDecompressor().stream_reader(f)
+        return tarfile.open(fileobj=r, mode='r|'), f, r
+    except Exception:
+        f.seek(0)
+        import lzma
+        r = lzma.open(f, 'rb')
+        return tarfile.open(fileobj=r, mode='r|'), f, r
+
+
 def _read_wcp_members(path):
-    """流式读 wcp(tar.zst)，返回 [(TarInfo, bytes or None)]，用完即关。"""
+    """流式读 wcp（zstd/xz/未压缩），返回 [(TarInfo, bytes or None)]，用完即关。"""
     out = []
-    with open(path, 'rb') as f:
-        dctx = zstd.ZstdDecompressor()
-        with dctx.stream_reader(f) as r:
-            with tarfile.open(fileobj=r, mode='r|') as t:
-                for m in t:
-                    data = t.extractfile(m).read() if m.isfile() else None
-                    out.append((m, data))
+    tf, f, r = _open_tar_stream(path)
+    try:
+        for m in tf:
+            data = tf.extractfile(m).read() if m.isfile() else None
+            out.append((m, data))
+    finally:
+        tf.close()
+        if r is not None:
+            try: r.close()
+            except Exception: pass
+        f.close()
     return out
 
 
