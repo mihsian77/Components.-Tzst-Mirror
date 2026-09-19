@@ -1,0 +1,260 @@
+[
+  {
+    "type": "Proton",
+    "verName": "WN.Proton-11-arm64ec-b2-NTSync-v2",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/WN.Proton-11-arm64ec-b2-NTSync-v2.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-11-B5-x86-64-Steam",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-11-B5-x86-64-Steam.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-11-B5-arm64ec-steam-unix",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-11-B5-arm64ec-steam-unix.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-11.1-ge-arm64ec-steam",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-11.1-ge-arm64ec-steam.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-11.0-5-x86_64",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-11.0-5-x86_64.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-11.0-5-arm64ec",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-11.0-5-arm64ec.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-11.0-5-custom-arm64ec",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-11.0-5-custom-arm64ec.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-11.0-2-x86-64-steam",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-11.0-2-x86-64-steam.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-11.0-2-x86_64-online-unixlib",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-11.0-2-x86_64-online-unixlib.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-11.0-2-arm64ec-online-unixlib-wayland",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-11.0-2-arm64ec-online-unixlib-wayland.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-11.0-2-arm64ec-steam-unix",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-11.0-2-arm64ec-steam-unix.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-11.0-1-x86-64-steam",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-11.0-1-x86-64-steam.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-11.0-1-arm64ec-steam-unix",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-11.0-1-arm64ec-steam-unix.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-11.0-1-arm64ec-steam-unix",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-11.0-1-arm64ec-steam-unix.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-10.99-arm64ec-NTSync-v5",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-10.99-arm64ec-NTSync-v5.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-10-arm64ec-original",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-10-arm64ec-original.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-10-arm64ec-unix",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-10-arm64ec-unix.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-10.0-4-x86_64",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-10.0-4-x86_64.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-10.0-4-x86_64-steam",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-10.0-4-x86_64-steam.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-10.0-4-arm64ec",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-10.0-4-arm64ec.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-10.0-4-arm64ec-steam-unix",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-10.0-4-arm64ec-steam-unix.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton.9.0-x86_64-steam",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton.9.0-x86_64-steam.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton-9.0-arm64ec-steam-unix",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-9.0-arm64ec-steam-unix.tar.zst"
+  },
+  {
+    "type": "Proton",
+    "verName": "Proton.9.0-arm64ec-steam",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton.9.0-arm64ec-steam.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-11.9-x86_64",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-11.9-x86_64.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-11.9-arm64ec",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-11.9-arm64ec.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-10.0-x86_64-ref4ik",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-10.0-x86_64-ref4ik.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-9.22-x86_64-ref4ik",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-9.22-x86_64-ref4ik.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-9.21-x86_64-ref4ik",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-9.21-x86_64-ref4ik.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "Wine-9.20-x86_64-original",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/Wine-9.20-x86_64-original.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-9.19-x86_64-ref4ik",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-9.19-x86_64-ref4ik.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-9.18-x86_64-ref4ik",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-9.18-x86_64-ref4ik.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-9.17-x86_64-ref4ik",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-9.17-x86_64-ref4ik.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-9.16-x86_64-ref4ik",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-9.16-x86_64-ref4ik.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-9.13-x86_64-ref4ik",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-9.13-x86_64-ref4ik.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-9.10-x86_64-ref4ik",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-9.10-x86_64-ref4ik.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-9.7-x86_64-ref4ik",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-9.7-x86_64-ref4ik.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-9.5-x86_64-ref4ik",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-9.5-x86_64-ref4ik.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-9.4-x86_64-ref4ik",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-9.4-x86_64-ref4ik.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-9.3-x86_64-ref4ik",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-9.3-x86_64-ref4ik.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-9.0-x86_64-ref4ik",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-9.0-x86_64-ref4ik.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-9.0.1-x86_64-ref4ik",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-9.0.1-x86_64-ref4ik.tar.zst"
+  },
+  {
+    "type": "Wine",
+    "verName": "wine-8.20-x86_64-ref4ik",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/wine/wine-8.20-x86_64-ref4ik.tar.zst"
+  }
+]
