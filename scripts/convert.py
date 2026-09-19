@@ -175,6 +175,30 @@ def cmd_wine(args):
           f"pattern={nbytes//1024//1024}MB")
 
 
+
+def transcode_to_zst(src, dst):
+    """把任意格式 tar（zstd/xz/未压缩）读出来，重新压成 zstd tar，覆盖扩展名谎言。"""
+    tf, f, r = _open_tar_stream(src)
+    try:
+        members = tf.getmembers()
+        with open(dst, 'wb') as fw:
+            w = zstd.ZstdCompressor(level=19).stream_writer(fw)
+            with tarfile.open(fileobj=w, mode='w') as out_tar:
+                for m in members:
+                    if m.isfile():
+                        data = tf.extractfile(m).read()
+                        m.size = len(data)
+                        out_tar.addfile(m, io.BytesIO(data))
+                    else:
+                        out_tar.addfile(m)
+            w.flush(zstd.FLUSH_FRAME)
+    finally:
+        tf.close()
+        if r is not None:
+            try: r.close()
+            except Exception: pass
+        f.close()
+
 def cmd_component(args):
     """组件包原样透传，文件名用 {ver}.tzst"""
     out = os.path.join(args.out, f"{args.ver}.tzst")
