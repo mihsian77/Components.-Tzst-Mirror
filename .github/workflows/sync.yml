@@ -1,0 +1,37 @@
+name: sync
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # 每 6 小时检查一次上游更新
+  workflow_dispatch:         # 允许手动一键触发
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Sync upstream -> publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/sync.py
+
+      - name: Commit catalog
+        run: |
+          git config user.name  github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+          git add contents.json
+          git commit -m "chore(catalog): auto update" || echo "no changes"
+          git push
