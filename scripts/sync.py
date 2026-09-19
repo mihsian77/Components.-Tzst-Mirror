@@ -61,21 +61,54 @@ def route_tag(upstream_tag, cat):
     return f"{base}/{cat.lower()}"
 
 
+# 分类友好名
+FRIENDLY = {
+    'proton': 'Proton', 'wine': 'Wine',
+    'box64': 'Box64 转译层', 'wowbox64': 'WOW64 Box64',
+    'fexcore': 'FEXCore 转译层', 'dxvk': 'DXVK（Vulkan→DirectX）',
+    'vkd3d': 'VKD3D（DirectX12→Vulkan）', 'd7vk': 'D7VK（DirectDraw→Vulkan）',
+}
+
+def _release_meta(tag):
+    """tag=latest/proton 或 stable/dxvk -> (title, body)"""
+    level, cat = tag.split('/', 1)
+    cat_key = cat.lower()
+    name = FRIENDLY.get(cat_key, cat)
+    level_cn = '最新版（nightly）' if level == 'latest' else '稳定版'
+    title = f'{name} · {level_cn}'
+    return title, level, cat_key
+
 def publish(tag, keep_files, keep_names):
     """把 keep_files 上传到 tag；删除同 tag 下不在 keep_names 的旧 asset。"""
     repo = os.environ['GITHUB_REPOSITORY']
+    title, level, cat_key = _release_meta(tag)
+    body = (f'## {title}\n\n'
+            f'自动镜像自 [nicholasx417/WinNative-Components](https://github.com/nicholasx417/WinNative-Components)。\n'
+            f'所有包均为 ZSTD (.tzst) 格式，可直接放入 Winlator assets。\n\n'
+            f'### 本包包含 {len(keep_names)} 个文件\n\n'
+            + '\n'.join(f'- `{n}`' for n in sorted(keep_names))
+            + '\n')
     # 确保 release 存在
     r = gh('release', 'view', tag)
     if r.returncode != 0:
-        gh('release', 'create', tag, '--title', tag, '--notes', 'auto', '--latest=false')
+        gh('release', 'create', tag, '--title', title, '--notes', body, '--latest=false')
+    else:
+        # 已存在则更新标题和说明
+        gh('release', 'edit', tag, '--title', title, '--notes', body)
     # 清旧 asset
     assets = gh_json(f"repos/{repo}/releases/tags/{tag}")
     for a in assets.get('assets', []):
         if a['name'] not in keep_names:
             gh('api', '--method', 'DELETE', f"repos/{repo}/releases/assets/{a['id']}")
+    # 打一个整包zip（方便一键下载；不影响contents.json里的单文件URL）
+    zip_path = os.path.join(OUT, f'{cat_key}.zip')
+    with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as zf:
+        for f in keep_files:
+            zf.write(f, os.path.basename(f))
+    upload_list = list(keep_files) + [zip_path]
     # 传新文件
-    if keep_files:
-        gh('release', 'upload', tag, *keep_files, '--clobber')
+    if upload_list:
+        gh('release', 'upload', tag, *upload_list, '--clobber')
 
 
 def main():
