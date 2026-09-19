@@ -78,16 +78,23 @@ def _release_meta(tag):
     title = f'{name} · {level_cn}'
     return title, level, cat_key
 
-def publish(tag, keep_files, keep_names):
+def publish(tag, keep_files, keep_names, catalog=None):
     """把 keep_files 上传到 tag；删除同 tag 下不在 keep_names 的旧 asset。"""
     repo = os.environ['GITHUB_REPOSITORY']
+    catalog = catalog or []
     title, level, cat_key = _release_meta(tag)
-    body = (f'## {title}\n\n'
-            f'自动镜像自 [nicholasx417/WinNative-Components](https://github.com/nicholasx417/WinNative-Components)。\n'
-            f'所有包均为 ZSTD (.tzst) 格式，可直接放入 Winlator assets。\n\n'
-            f'### 本包包含 {len(keep_names)} 个文件\n\n'
-            + '\n'.join(f'- `{n}`' for n in sorted(keep_names))
-            + '\n')
+    # 文件名 -> 上游tag 映射
+    src_map = {}
+    for e in catalog:
+        if e.get('file') and e.get('up_tag'):
+            src_map[e['file']] = e['up_tag']
+    lines = [f'## {title}', '', 'ZSTD 格式，可直接放入 Winlator assets。', '']
+    lines.append('| 文件 | 上游来源 |')
+    lines.append('|---|---|')
+    for n in sorted(keep_names):
+        src = src_map.get(n, '—')
+        lines.append(f'| `{n}` | `{src}` |')
+    body = '\n'.join(lines) + '\n'
     # 确保 release 存在
     r = gh('release', 'view', tag)
     if r.returncode != 0:
@@ -168,6 +175,7 @@ def main():
                     'type': typ,
                     'verName': ver if not name.endswith('_container_pattern.tzst') else None,
                     'file': name,
+                    'up_tag': up_tag,
                 })
             print(f"   ✅ OK -> {cat_tag}", flush=True)
         except Exception as e:
@@ -182,7 +190,7 @@ def main():
     repo = os.environ['GITHUB_REPOSITORY']
     for tag, b in bucket.items():
         try:
-            publish(tag, b['files'], b['names'])
+            publish(tag, b['files'], b['names'], b.get('catalog', []))
             print(f"published {tag}: {len(b['names'])} files")
         except Exception as e:
             print(f"!! 发布 {tag} 失败: {type(e).__name__}: {e}")
