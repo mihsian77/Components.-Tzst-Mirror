@@ -1,0 +1,22 @@
+# 上游 catalog（JSON 数组：type/verName/verCode/remoteUrl）
+upstream_catalog: https://raw.githubusercontent.com/nicholasx417/WinNative-Components/main/contents.json
+
+# 收录哪些分类
+collect:
+  - Proton
+  - Wine
+  - Box64
+  - WOWBox64
+  - FEXCore
+  - DXVK
+  - VKD3D
+  - D7VK
+
+# 这些分类按「wine 双包」处理（本体 + container_pattern）
+# 其余分类原样透传
+wine_types:
+  - Proton
+  - Wine
+
+# 路由规则：上游 release tag 名含 nightly -> 本仓 latest/，否则 -> stable/
+# （无需改）
