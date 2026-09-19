@@ -119,54 +119,73 @@ def main():
     items = fetch_catalog(upstream_url)
 
     bucket = {}   # tag -> {'files':[], 'names':set(), 'catalog':[]}
-    for it in items:
+    failed = []
+    for idx, it in enumerate(items, 1):
         typ = it.get('type', '')
         if typ not in collect:
             continue
         remote = it.get('remoteUrl', '')
         if not remote:
             continue
-        # 上游 release tag（从 remoteUrl 取）
         parts = remote.split('/releases/download/')
         up_tag = parts[1].split('/')[0] if len(parts) == 2 else 'stable'
         cat_tag = route_tag(up_tag, typ)
         ver = it.get('verName', os.path.basename(remote).replace('.wcp', ''))
         wcp = os.path.join(OUT, os.path.basename(remote))
-        print(f"-> {typ}/{ver}  [{up_tag} -> {cat_tag}]")
-        urllib.request.urlretrieve(remote, wcp)
+        print(f"\n[{idx}/{len(items)}] {typ}/{ver}  [{up_tag} -> {cat_tag}]", flush=True)
+        try:
+            # 带进度的下载
+            with urllib.request.urlopen(remote, timeout=120) as r, open(wcp, 'wb') as fout:
+                total = int(r.headers.get('Content-Length', 0))
+                got = 0
+                while True:
+                    chunk = r.read(1024*1024)
+                    if not chunk: break
+                    fout.write(chunk); got += len(chunk)
+                    if total:
+                        print(f"\r   下载 {got//1024//1024}/{total//1024//1024} MB", end='', flush=True)
+            print(f"\n   下载完成 {os.path.getsize(wcp)//1024//1024}MB", flush=True)
 
-        if typ in wine_types:
-            # wine 双包：id 用 verName（bionic identifier 需与 array.xml 一致）
-            bid = ver
-            _wine_pair(wcp, bid, OUT)
-            body = os.path.join(OUT, f"{bid}.tar.zst")
-            pat = os.path.join(OUT, f"{bid}_container_pattern.tzst")
-            files = [body, pat]
-        else:
-            dest = os.path.join(OUT, f"{ver}.tzst")
-            shutil.copyfile(wcp, dest)
-            files = [dest]
+            if typ in wine_types:
+                bid = ver
+                _wine_pair(wcp, bid, OUT)
+                body = os.path.join(OUT, f"{bid}.tar.zst")
+                pat = os.path.join(OUT, f"{bid}_container_pattern.tzst")
+                files = [body, pat]
+            else:
+                dest = os.path.join(OUT, f"{ver}.tzst")
+                convert.transcode_to_zst(wcp, dest)
+                files = [dest]
 
-        b = bucket.setdefault(cat_tag, {'files': [], 'names': set(), 'catalog': []})
-        for f in files:
-            if os.path.exists(f):
-                b['files'].append(f)
-                b['names'].add(os.path.basename(f))
-        # 记录 catalog 条目（remoteUrl 指向本仓）
-        owner_repo = os.environ['GITHUB_REPOSITORY']
-        for f in files:
-            name = os.path.basename(f)
-            b['catalog'].append({
-                'type': typ,
-                'verName': ver if not name.endswith('_container_pattern.tzst') else None,
-                'file': name,
-            })
+            b = bucket.setdefault(cat_tag, {'files': [], 'names': set(), 'catalog': []})
+            for f in files:
+                if os.path.exists(f):
+                    b['files'].append(f)
+                    b['names'].add(os.path.basename(f))
+            for f in files:
+                name = os.path.basename(f)
+                b['catalog'].append({
+                    'type': typ,
+                    'verName': ver if not name.endswith('_container_pattern.tzst') else None,
+                    'file': name,
+                })
+            print(f"   ✅ OK -> {cat_tag}", flush=True)
+        except Exception as e:
+            print(f"   ❌ 跳过: {type(e).__name__}: {e}", flush=True)
+            failed.append(f"{typ}/{ver}: {e}")
 
-    # 逐 tag 发布
+    if failed:
+        print(f"\n=== 失败 {len(failed)} 个 ===")
+        for x in failed: print("  -", x)
+
+    # 逐 tag 发布（每个tag独立容错）
     repo = os.environ['GITHUB_REPOSITORY']
     for tag, b in bucket.items():
-        publish(tag, b['files'], b['names'])
-        print(f"published {tag}: {len(b['names'])} files")
+        try:
+            publish(tag, b['files'], b['names'])
+            print(f"published {tag}: {len(b['names'])} files")
+        except Exception as e:
+            print(f"!! 发布 {tag} 失败: {type(e).__name__}: {e}")
 
     # 生成本仓 contents.json（放在仓库根，raw 可读）
     flat = []
