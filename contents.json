@@ -37,6 +37,12 @@
   },
   {
     "type": "Proton",
+    "verName": "Proton-11.0-5-custom-arm64ec",
+    "verCode": "0",
+    "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-11.0-5-custom-arm64ec.tar.zst"
+  },
+  {
+    "type": "Proton",
     "verName": "Proton-11.0-2-x86-64-steam",
     "verCode": "0",
     "remoteUrl": "https://github.com/hao728/Components.-Tzst-Mirror/releases/download/stable/proton/Proton-11.0-2-x86-64-steam.tar.zst"
