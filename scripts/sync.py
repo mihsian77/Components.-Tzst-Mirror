@@ -55,10 +55,26 @@ def fetch_catalog(url):
         return json.loads(r.read())
 
 
-def route_tag(upstream_tag, cat):
-    """上游 release tag -> 本仓 tag。nightly 类 -> latest/，否则 -> stable/。"""
+def route_tag(upstream_tag, cat, ver_name=''):
+    """上游 release tag -> 本仓 tag。
+    按版本标签细分：steam / steam-unix / ntsync / unix / 默认
+    """
     base = 'latest' if 'nightly' in upstream_tag.lower() else 'stable'
-    return f"{base}/{cat.lower()}"
+    ver_lower = ver_name.lower()
+    
+    # 从版本名提取细分标签
+    if 'steam-unix' in ver_lower or 'steam_unix' in ver_lower:
+        sub = 'steam-unix'
+    elif 'ntsync' in ver_lower:
+        sub = 'ntsync'
+    elif 'steam' in ver_lower:
+        sub = 'steam'
+    elif 'unix' in ver_lower:
+        sub = 'unix'
+    else:
+        sub = 'default'
+    
+    return f"{base}/{cat.lower()}/{sub}"
 
 
 # 分类友好名
@@ -70,12 +86,21 @@ FRIENDLY = {
 }
 
 def _release_meta(tag):
-    """tag=latest/proton 或 stable/dxvk -> (title, body)"""
-    level, cat = tag.split('/', 1)
-    cat_key = cat.lower()
-    name = FRIENDLY.get(cat_key, cat)
+    """tag=stable/proton/steam 或 latest/wine/default -> (title, body)"""
+    parts = tag.split('/')
+    level = parts[0]
+    cat_key = parts[1].lower() if len(parts) > 1 else 'unknown'
+    sub = parts[2] if len(parts) > 2 else 'default'
+    name = FRIENDLY.get(cat_key, cat_key)
     level_cn = '最新版（nightly）' if level == 'latest' else '稳定版'
-    title = f'{name} · {level_cn}'
+    sub_cn = {
+        'steam': 'Steam版',
+        'steam-unix': 'Steam Unix版',
+        'ntsync': 'NTSync版',
+        'unix': 'Unix版',
+        'default': '通用版',
+    }.get(sub, sub)
+    title = f'{name} · {level_cn} · {sub_cn}'
     return title, level, cat_key
 
 def publish(tag, keep_files, keep_names, catalog=None):
@@ -136,7 +161,7 @@ def main():
             continue
         parts = remote.split('/releases/download/')
         up_tag = parts[1].split('/')[0] if len(parts) == 2 else 'stable'
-        cat_tag = route_tag(up_tag, typ)
+        cat_tag = route_tag(up_tag, typ, ver)
         ver = it.get('verName', os.path.basename(remote).replace('.wcp', ''))
         wcp = os.path.join(OUT, os.path.basename(remote))
         print(f"\n[{idx}/{len(items)}] {typ}/{ver}  [{up_tag} -> {cat_tag}]", flush=True)
