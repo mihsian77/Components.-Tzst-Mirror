@@ -161,8 +161,8 @@ def main():
             continue
         parts = remote.split('/releases/download/')
         up_tag = parts[1].split('/')[0] if len(parts) == 2 else 'stable'
-        cat_tag = route_tag(up_tag, typ, ver)
         ver = it.get('verName', os.path.basename(remote).replace('.wcp', ''))
+        cat_tag = route_tag(up_tag, typ, ver)
         wcp = os.path.join(OUT, os.path.basename(remote))
         print(f"\n[{idx}/{len(items)}] {typ}/{ver}  [{up_tag} -> {cat_tag}]", flush=True)
         try:
